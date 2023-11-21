@@ -40,13 +40,13 @@ function App() {
         } else if (value === false) {
             setSource("https://media.discordapp.net/attachments/1065305320735375441/1176547634727616604/755.png?ex=656f445f&is=655ccf5f&hm=610e8d8c0e95154a8131407317978efe737133cadc1cd0455e2eda5754163f73")
         } else {
-            setSource("https://media.discordapp.net/attachments/1065305320735375441/1176547635440652298/flat750x075f-pad750x1000f8f8f8.png?ex=656f445f&is=655ccf5f&hm=c5c69e039fee407a39ccd1dcf52e6579db4b0d2cb8e8018fd209fcaea6a31c59")
+            setSource("https://cdn.discordapp.com/attachments/1065305320735375441/1176555150073139272/Capture_decran_2023-11-21_a_17.09.59.png?ex=656f4b5f&is=655cd65f&hm=0907cf3e889bd8069e773fa31663b2a2d9c42dd2d20422216585f88a12f2489e&")
         }
     };
 
     return (
-        <>
-            <form className="App" onSubmit={myFunction}>
+        <div className={"App"}>
+            <form onSubmit={myFunction}>
                 <h1>Banque du Nord de Snezhnaya</h1>
                 <p>
                     <div className={"inputDiv"}>
@@ -96,7 +96,7 @@ function App() {
                     style={{maxWidth:"300px"}}/>
                     : ""
             }
-        </>
+        </div>
     );
 }
 
