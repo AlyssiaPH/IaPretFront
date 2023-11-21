@@ -4,6 +4,7 @@ import {useState} from "react";
 function App() {
     const [result, setResult] = useState(undefined);
     const [source, setSource] = useState(undefined);
+    const [textResult, setTextResult] = useState(undefined);
 
     const myFunction = async (event) => {
         event.preventDefault();
@@ -36,10 +37,13 @@ function App() {
 
         setResult(value === true)
         if (value) {
+            setTextResult("Votre prêt a été accordé !")
             setSource("https://cdn.discordapp.com/attachments/1065305320735375441/1176528841058033694/mora__please__by_monotsuki_debgleb-fullview.png")
         } else if (value === false) {
+            setTextResult("Votre prêt a été refusé !")
             setSource("https://media.discordapp.net/attachments/1065305320735375441/1176547634727616604/755.png?ex=656f445f&is=655ccf5f&hm=610e8d8c0e95154a8131407317978efe737133cadc1cd0455e2eda5754163f73")
         } else {
+            setTextResult("Une erreur est survenue")
             setSource("https://cdn.discordapp.com/attachments/1065305320735375441/1176555150073139272/Capture_decran_2023-11-21_a_17.09.59.png?ex=656f4b5f&is=655cd65f&hm=0907cf3e889bd8069e773fa31663b2a2d9c42dd2d20422216585f88a12f2489e&")
         }
     };
@@ -91,9 +95,12 @@ function App() {
             </form>
             {
                 result !== undefined ?
+                    <div>
+                        <p>{textResult}</p>
                     <img src={source}
                          alt={result ? "yes" : "nope"}
                     style={{maxWidth:"300px"}}/>
+                    </div>
                     : ""
             }
         </div>
