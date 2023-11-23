@@ -78,6 +78,9 @@ function App() {
             console.error('Error:', error.message);
         }
 
+
+        console.log(value)
+        console.log(value.predict_response.prediction)
         const prediction = value.predict_response.prediction
 
         setResult(prediction)
@@ -118,27 +121,27 @@ function App() {
             <form onSubmit={simulate}>
                 <div className={"inputDiv"}>
                     <label>Somme à payer / mois (Installment)</label>
-                    <input id={"installment"} type={"number"} name={"installment"} defaultValue={"35000"}/>
+                    <input id={"installment"} type={"number"} name={"installment"} defaultValue={"15550"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Logarithme annuel (log.annual.in)</label>
-                    <input id={"log_annual_inc"} type={"number"} name={"log_annual_inc"} defaultValue={"100"}/>
+                    <input id={"log_annual_inc"} type={"number"} name={"log_annual_inc"} defaultValue={"10"}/>
                 </div>
                 <div className={"inputDiv"}>
-                    <label>Ration dette/revenu (Dti)</label>
-                    <input id={"dti"} type={"number"} name={"dti"} defaultValue={"2"}/>
+                    <label>Ratio dette/revenu (Dti)</label>
+                    <input id={"dti"} name={"dti"} defaultValue={"4"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Score Fico (300 à 850)</label>
-                    <input id={"fico"} type={"number"} name={"fico"} defaultValue={"455"}/>
+                    <input id={"fico"} type={"number"} name={"fico"} defaultValue={"667"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Solde renouvelable (revol_bal)</label>
-                    <input id={"revol_bal"} type={"number"} name={"revol_bal"} defaultValue={"2000"}/>
+                    <input id={"revol_bal"} type={"number"} name={"revol_bal"} defaultValue={"3839"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Taux d'utilisation du crédit (revol_util)</label>
-                    <input id={"revol_util"} type={"number"} name={"revol_util"} defaultValue={"35"}/>
+                    <input id={"revol_util"} type={"number"} name={"revol_util"} defaultValue={"76"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label> Nombre de renseignements/plaintes (inq.last.6mths)</label>
@@ -146,7 +149,7 @@ function App() {
                 </div>
                 <div className={"inputDiv"}>
                     <label>Nombre de retard (delinq.2yrs)</label>
-                    <input id={"delinq_2yrs"} type={"number"} name={"delinq_2yrs"} defaultValue={"2"}/>
+                    <input id={"delinq_2yrs"} type={"number"} name={"delinq_2yrs"} defaultValue={"0"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Nombre de dossiers publics dérogatoires (pub.rec)</label>
