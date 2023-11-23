@@ -39,7 +39,7 @@ function App() {
         const fittedModel = fitResultModel.fit_model_response;
         console.log(fittedModel)
 
-        setFitResultModel(fittedModel[0].split(":")[1].split(".")[1])
+        setFitResultModel(fittedModel[0].split(":")[1])
         setRequesting(false)
     }
 
@@ -78,12 +78,14 @@ function App() {
             console.error('Error:', error.message);
         }
 
-        setResult(value === true)
-        if (value) {
+        const prediction = value.predict_response.prediction
+
+        setResult(prediction)
+        if (prediction) {
             setTextResult("Votre prêt a été accordé !")
             setSource("https://cdn.discordapp.com/attachments/1065305320735375441/1176528841058033694/mora__please__by_monotsuki_debgleb-fullview.png")
-        } else if (value === false) {
-            setTextResult("Votre prêt a été refusé !")
+        } else if (prediction === false) {
+            setTextResult("Votre prêt a été refusé... Cheh.")
             setSource("https://media.discordapp.net/attachments/1065305320735375441/1176547634727616604/755.png?ex=656f445f&is=655ccf5f&hm=610e8d8c0e95154a8131407317978efe737133cadc1cd0455e2eda5754163f73")
         } else {
             setTextResult("Une erreur est survenue")
@@ -120,7 +122,7 @@ function App() {
                 </div>
                 <div className={"inputDiv"}>
                     <label>Logarithme annuel (log.annual.in)</label>
-                    <input id={"annual_log"} type={"number"} name={"annual_log"} defaultValue={"100"}/>
+                    <input id={"log_annual_inc"} type={"number"} name={"log_annual_inc"} defaultValue={"100"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Ration dette/revenu (Dti)</label>
@@ -140,7 +142,7 @@ function App() {
                 </div>
                 <div className={"inputDiv"}>
                     <label> Nombre de renseignements/plaintes (inq.last.6mths)</label>
-                    <input id={"inq_last_6mth"} type={"number"} name={"inq_last_6mth"} defaultValue={"0"}/>
+                    <input id={"inq_last_6mths"} type={"number"} name={"inq_last_6mths"} defaultValue={"0"}/>
                 </div>
                 <div className={"inputDiv"}>
                     <label>Nombre de retard (delinq.2yrs)</label>
