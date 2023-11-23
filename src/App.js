@@ -5,8 +5,27 @@ function App() {
     const [result, setResult] = useState(undefined);
     const [source, setSource] = useState(undefined);
     const [textResult, setTextResult] = useState(undefined);
+    const [model, setModel] = useState("randomforest");
+    const [resultModel, setResultModel] = useState(undefined);
 
-    const myFunction = async (event) => {
+    const url = "http://localhost:7000"
+
+    const train = async (event) => {
+        event.preventDefault()
+        const createModelResponse = await fetch(url + '/create_model/' + model);
+
+        const createModelresult = await createModelResponse.json();
+        const resultModel = createModelresult.create_model_response.created_model;
+        console.log("Model of Train:", resultModel)
+        setResultModel(resultModel)
+
+        if (createModelresult) {
+            const fitModelResponse = await fetch(url + '/fit_model/' + resultModel)
+            console.log("Model of Fit:", await fitModelResponse.json())
+        }
+    }
+
+    const simulate = async (event) => {
         event.preventDefault();
         let value = undefined
 
@@ -16,8 +35,10 @@ function App() {
             formObject[key] = value;
         });
 
+        console.log("Formulaire: ", formObject)
+
         try {
-            const response = await fetch('http://127.0.0.1:8000/request', {
+            const response = await fetch(url + '/predict/' + resultModel, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,56 +71,67 @@ function App() {
 
     return (
         <div className={"App"}>
-            <form onSubmit={myFunction}>
-                <h1>Banque du Nord de Snezhnaya</h1>
-                <p>
-                    <div className={"inputDiv"}>
-                        <label>Somme à payer / mois (Installment)</label>
-                        <input id={"installment"} type={"number"} name={"installment"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Logarithme annuel (log.annual.in)</label>
-                        <input id={"annual_log"} type={"number"} name={"annual_log"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Ration dette/revenu (Dti)</label>
-                        <input id={"dti"} type={"number"} name={"dti"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Score Fico (300 à 850)</label>
-                        <input id={"fico"} type={"number"} name={"fico"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Solde renouvelable (revol_bal)</label>
-                        <input id={"revol_bal"} type={"number"} name={"revol_bal"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Taux d'utilisation du crédit (revol_util)</label>
-                        <input id={"revol_util"} type={"number"} name={"revol_util"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label> Nombre de renseignements/plaintes (inq.last.6mths)</label>
-                        <input id={"inq_last_6mth"} type={"number"} name={"inq_last_6mth"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Nombre de retard (delinq.2yrs)</label>
-                        <input id={"delinq_2yrs"} type={"number"} name={"delinq_2yrs"}/>
-                    </div>
-                    <div className={"inputDiv"}>
-                        <label>Nombre de dossiers publics dérogatoires (pub.rec)</label>
-                        <input id={"pub_rec"} type={"number"} name={"pub_rec"}/>
-                    </div>
-                    <button type={"submit"}>Simuler</button>
-                </p>
+            <h1>Banque du Nord de Snezhnaya</h1>
+
+            <form onSubmit={train}>
+                <div>
+                    <label>Model: (current {model})</label>
+
+                    <select onChange={(event) => setModel(event.currentTarget.value)}>
+                        <option value={"randomforest"}>Random Forest</option>
+                        <option value={"logisticregression "}>Logistic Regression</option>
+                    </select>
+                    <button type={"submit"}>Entrainer</button>
+                </div>
+            </form>
+
+            <form onSubmit={simulate}>
+                <div className={"inputDiv"}>
+                    <label>Somme à payer / mois (Installment)</label>
+                    <input id={"installment"} type={"number"} name={"installment"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Logarithme annuel (log.annual.in)</label>
+                    <input id={"annual_log"} type={"number"} name={"annual_log"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Ration dette/revenu (Dti)</label>
+                    <input id={"dti"} type={"number"} name={"dti"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Score Fico (300 à 850)</label>
+                    <input id={"fico"} type={"number"} name={"fico"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Solde renouvelable (revol_bal)</label>
+                    <input id={"revol_bal"} type={"number"} name={"revol_bal"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Taux d'utilisation du crédit (revol_util)</label>
+                    <input id={"revol_util"} type={"number"} name={"revol_util"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label> Nombre de renseignements/plaintes (inq.last.6mths)</label>
+                    <input id={"inq_last_6mth"} type={"number"} name={"inq_last_6mth"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Nombre de retard (delinq.2yrs)</label>
+                    <input id={"delinq_2yrs"} type={"number"} name={"delinq_2yrs"}/>
+                </div>
+                <div className={"inputDiv"}>
+                    <label>Nombre de dossiers publics dérogatoires (pub.rec)</label>
+                    <input id={"pub_rec"} type={"number"} name={"pub_rec"}/>
+                </div>
+                <button disabled={!resultModel} type={"submit"} >Simuler</button>
 
             </form>
             {
                 result !== undefined ?
                     <div>
                         <p>{textResult}</p>
-                    <img src={source}
-                         alt={result ? "yes" : "nope"}
-                    style={{maxWidth:"300px"}}/>
+                        <img src={source}
+                             alt={result ? "yes" : "nope"}
+                             style={{maxWidth: "300px"}}/>
                     </div>
                     : ""
             }
