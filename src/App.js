@@ -12,7 +12,7 @@ function App() {
     const [fitResultModel, setFitResultModel] = useState(undefined);
 
 
-    const url = "http://localhost:7000"
+    const url = process.env.API_URL
 
     const createAndTrain = async (event) => {
         event.preventDefault()
